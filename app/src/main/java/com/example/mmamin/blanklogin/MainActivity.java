@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
         Window window = dialog.getWindow();
         WindowManager.LayoutParams param = window.getAttributes();
         param.y = 150;
+        param.width = 600;
+        param.height = 650;
 
         dialog.show();
     }
