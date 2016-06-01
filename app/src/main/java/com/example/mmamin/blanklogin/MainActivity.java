@@ -18,13 +18,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 
-public class MainActivity extends AppCompatActivity implements
-        GoogleApiClient.OnConnectionFailedListener {
-    ImageView mIdtLogo;
-    Button mTopLoginButton;
-    Button mGoogleLoginButton;
-    GoogleApiClient mGoogleApiClient;
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
+    private ImageView mIdtLogo;
+    private Button mTopLoginButton;
+    private Button mGoogleLoginButton;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,12 @@ public class MainActivity extends AppCompatActivity implements
         dialog.setCanceledOnTouchOutside(false);
 
         mTopLoginButton = (Button) dialog.findViewById(R.id.password_button);
+        mTopLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signOut();
+            }
+        });
         mGoogleLoginButton = (Button) dialog.findViewById(R.id.google_button);
         mGoogleLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,11 +84,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.d("connectionfailed", "connectionresult: " + connectionResult);
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -92,15 +94,52 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    @Override
+    protected void onResume() {
+        Intent returnIntent = getIntent();
+        String returnString = returnIntent.getStringExtra("signout");
+        try {
+
+            if(returnString.equals("signout")){
+                Log.d("blablablabla", "onCreate: " + returnString);
+                Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                        new ResultCallback<Status>() {
+                            @Override
+                            public void onResult(Status status) {
+                                Log.d("Status", "onResult: " + status);
+                            }
+                        });
+            }
+
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        }
+        super.onResume();
+    }
+
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d("handlesignin", "handleSignInResult:" + result);
         if (result.isSuccess()) {
-            Intent intent = new Intent(MainActivity.this, InformationActivity.class);
-            startActivity(intent);
-            GoogleSignInAccount acct = result.getSignInAccount();
+                Intent intent = new Intent(MainActivity.this, InformationActivity.class);
+                startActivity(intent);
+                GoogleSignInAccount acct = result.getSignInAccount();
         } else {
             // Signed out, show unauthenticated UI.
         }
     }
 
+    public void signOut() {
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                        Log.d("Status", "onResult: " + status);
+                    }
+                });
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
 }
