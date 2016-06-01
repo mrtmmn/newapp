@@ -59,6 +59,8 @@ public class InformationActivity extends AppCompatActivity implements GoogleApiC
                 return true;
             case R.id.logout:
                 signOut();
+                Intent returnIntent = new Intent(InformationActivity.this, MainActivity.class);
+                startActivity(returnIntent);
             default:
                 return super.onOptionsItemSelected(item);
         }
