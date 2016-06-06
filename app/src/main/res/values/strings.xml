@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Trunkmon</string>
+    <string name="dixision_code_multine">Line Number 1 \nLine Number 2</string>
 </resources>

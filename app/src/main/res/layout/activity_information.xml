@@ -10,11 +10,27 @@
     tools:context="com.example.mmamin.blanklogin.InformationActivity"
     android:id="@+id/relativeLayout">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/division_code"
+        android:text="Division \n Code"
+        android:paddingLeft="45dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/division_name"
+        android:text="Division Name"
+        android:layout_toRightOf="@+id/division_code"
+        android:paddingLeft="35dp"
+        android:paddingTop="10dp"/>
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/listview" />
+        android:id="@+id/listview"
+        android:layout_below="@+id/division_code"/>
 
 
 </RelativeLayout>

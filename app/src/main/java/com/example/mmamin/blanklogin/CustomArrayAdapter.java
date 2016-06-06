@@ -33,14 +33,19 @@ public class CustomArrayAdapter extends ArrayAdapter<String> {
 
         if (positionValue.contains("Gold")) {
             textViewCircle.setBackgroundResource(R.drawable.circle_gold);
+            textViewCircle.setText("A");
         } else if (positionValue.contains("Silver")){
             textViewCircle.setBackgroundResource(R.drawable.circle_silver);
+            textViewCircle.setText("J");
         } else if (positionValue.contains("UKDebit")){
             textViewCircle.setBackgroundResource(R.drawable.circle_ukdebit);
+            textViewCircle.setText("K");
         }else if (positionValue.contains("USDebit")){
             textViewCircle.setBackgroundResource(R.drawable.circle_usdebit);
+            textViewCircle.setText("D");
         }else if (positionValue.contains("Carriers")){
             textViewCircle.setBackgroundResource(R.drawable.circle_carriers);
+            textViewCircle.setText("W");
         }
 
         return rowView;
