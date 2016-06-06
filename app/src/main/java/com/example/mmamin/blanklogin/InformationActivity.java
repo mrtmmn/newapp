@@ -3,10 +3,12 @@ package com.example.mmamin.blanklogin;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.ListViewCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.google.android.gms.auth.api.Auth;
@@ -19,11 +21,24 @@ import com.google.android.gms.common.api.Status;
 public class InformationActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
     RelativeLayout mRelativeLayout;
     GoogleApiClient mGoogleApiClient;
+    ListView mListview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_information);
+
+        mListview = (ListView)findViewById(R.id.listview);
+
+        String [] typeString = new String [] {
+                "Gold",
+                "Silver",
+                "UKDebit",
+                "USDebit",
+                "Carriers"
+        };
+
+        mListview.setAdapter(new CustomArrayAdapter(this, typeString));
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
