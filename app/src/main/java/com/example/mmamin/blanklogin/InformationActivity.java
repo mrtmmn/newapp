@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -18,27 +19,46 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 public class InformationActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
     RelativeLayout mRelativeLayout;
     GoogleApiClient mGoogleApiClient;
-    ListView mListview;
+
+    List<String> groupList;
+    List<String> childList;
+    Map<String, List<String>> mCollection;
+    ExpandableListView mListview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_information);
 
-        mListview = (ListView)findViewById(R.id.listview);
+        mListview = (ExpandableListView) findViewById(R.id.listview);
 
-        String [] typeString = new String [] {
-                "Gold",
-                "Silver",
-                "UKDebit",
-                "USDebit",
-                "Carriers"
-        };
+        groupList = new ArrayList<String>();
+        groupList.add("Gold");
+        groupList.add("Silver");
+        groupList.add("USDebit");
+        groupList.add("UKDebit");
+        groupList.add("Carriers");
 
-        mListview.setAdapter(new CustomArrayAdapter(this, typeString));
+        childList = new ArrayList<String>();
+        childList.add("Cuba");
+        childList.add("USA");
+        childList.add("France");
+
+        mCollection = new LinkedHashMap<String, List<String>>();
+        for (String carrier : groupList) {
+            mCollection.put(carrier, childList);
+        }
+
+        mListview.setAdapter(new CustomExpandableListAdapter(this, groupList, mCollection));
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
